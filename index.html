@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ready Up Room</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    #status {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    #readyBtn {
+      font-size: 1.5em;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="status">0/2</div>
+  <button id="readyBtn">Ready Up</button>
+
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+  <script>
+    const socket = io('https://<your-heroku-app>.herokuapp.com');
+
+    socket.on('updateCount', (count) => {
+      document.getElementById('status').textContent = `${count}/2`;
+    });
+
+    document.getElementById('readyBtn').addEventListener('click', () => {
+      socket.emit('ready');
+    });
+  </script>
+</body>
+</html>
